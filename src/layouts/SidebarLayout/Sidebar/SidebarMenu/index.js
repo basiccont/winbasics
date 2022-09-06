@@ -238,7 +238,7 @@ function SidebarMenu() {
                     onClick={closeSidebar}
                     startIcon={<MmsTwoToneIcon />}
                   >
-                    Income Calculator
+                     Win 25 For 1 Matic
                   </Button>
                 </NextLink>
               </ListItem>

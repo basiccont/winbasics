@@ -147,6 +147,16 @@ function DashboardTasks() {
       },
       rpcUrls: ["https://polygon-rpc.com/"],
       blockExplorerUrls: ["https://polygonscan.com/"]
+    },
+    gan: {
+      chainId: `0x${Number(1337).toString(16)}`,
+      nativeCurrency: {
+        name: "Local Native Token",
+        symbol: "ETH",
+        decimals: 18
+      },
+      rpcUrls: ["HTTP://127.0.0.1:7545"],
+      blockExplorerUrls: ["https://bscscan.com"]
     }
    };
  
@@ -180,7 +190,7 @@ function DashboardTasks() {
             method: "wallet_addEthereumChain",
             params: [
               {
-                ...networks['polygon']
+                ...networks['gan']
               }
             ]
           });
@@ -188,7 +198,7 @@ function DashboardTasks() {
           try {
             await ethereum.request({
               method: 'wallet_switchEthereumChain',
-              params: [{  chainId: `0x${Number(137).toString(16)}` }],
+              params: [{  chainId: `0x${Number(1337).toString(16)}` }],
             });
           } catch (switchError) {
             if (switchError.code === 4902) {
@@ -197,7 +207,7 @@ function DashboardTasks() {
                   method: 'wallet_addEthereumChain',
                   params: [
                     {
-                      ...networks['polygon']
+                      ...networks['gan']
                     },
                   ],
                 });
@@ -299,75 +309,6 @@ function DashboardTasks() {
               </Grid>
 
 
-            {/* {currentTab === 'analytics' && (
-              <>
-                <Grid item xs={12}>
-                  <Box p={4}>
-                    <TeamOverview />
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
-                  <Divider />
-                  <Box
-                    p={4}
-                    sx={{
-                      background: `${theme.colors.alpha.black[5]}`
-                    }}
-                  >
-                    <Grid container spacing={4}>
-                      <Grid item xs={12} >
-                        <AccountBalance />
-                      </Grid>
-        
-                    </Grid>
-                  </Box>
-                  <Divider />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Box
-                    sx={{
-                      background: `${theme.colors.alpha.black[5]}`
-                    }}
-                  >
-                    <Grid container spacing={0}>
-                      <Grid item xs={12} md={6}>
-                        <Box
-                          p={4}
-                          sx={{
-                            background: `${theme.colors.alpha.white[70]}`
-                          }}
-                        >
-                          <Checklist />
-                        </Box>
-                      </Grid>
-
-                      <Grid item xs={12} md={6}>
-                        <Box p={4}>
-                          <Profile />
-                        </Box>
-                      </Grid>
-
-                    </Grid>
-                  </Box>
-                </Grid>
-              </>
-            )}
-            {currentTab === 'taskSearch' && (
-              <Grid item xs={12}>
-                <Box p={4}>
-                  <TaskSearch 
-                   isConnected={isConnected}
-                   accounts={accounts}
-                   web3={web3}
-                   errormsgw={errormsg}
-                   onConnect={onConnect}
-                   onDisconnect={onDisconnect}
-                   refid = {refid}
-                  />
-                </Box>
-              </Grid>
-            )} */}
 
           </Grid>
         </Card>
