@@ -17,27 +17,13 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import CardTravelIcon from '@mui/icons-material/CardTravel';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import PaidIcon from '@mui/icons-material/Paid';
-import GroupIcon from '@mui/icons-material/Group';
 import CircularProgress from '@mui/material/CircularProgress';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import TextField from '@mui/material/TextField';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
-import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
+import LinearProgress from '@mui/material/LinearProgress';
 import Text from 'src/components/Text';
 import Web3 from "web3";
-import AccountBalance from 'src/content/Dashboards/Tasks/AccountBalance';
 import SimpleStorageContract from "config/BasicContractFXMflat.json";
 import { CONTADDRESS,TXNURL,TOKENADDRESS,REFURL,FXSPONSOR,DSTATECT } from 'config/configct';
 
@@ -624,127 +610,221 @@ const callAdmin = async (sponaddress) => {
         justifyContent="space-between"
       ></Box>
 
-      {/* <Divider />
-      <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
+
+      <Grid container spacing={4}>
+        <Grid item xs={12} >
+          {/* <AccountBalance /> */}
+
+          <Card>
+            <Grid spacing={0} container>
+              <Grid item xs={12} md={6}>
+                <Box p={4}>
+                  <Typography
+                    sx={{
+                      pb: 3
+                    }}
+                    variant="h4"
                   >
-                    <Typography variant="h5">Sponsor Finder Tool</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
+
+                  </Typography>
+                  <Box>
+                    <Typography variant="h1" gutterBottom>
+                      <Text color="success"> 50 MATIC</Text>
+                    </Typography>
+                    <Typography
+                      variant="h4"
+                      fontWeight="normal"
+                      color="text.secondary"
+                    >
+                      Each Slot allocates 50 Matic Win Prize.
+                    </Typography>
+                    <LinearProgress color="success" />
+
+
+                    <Box
+                      sx={{
+                        pt: 3
+                      }}
+                    >
+                      <TextField
+                        required
+                        id="outlined-required"
+                        label="Matic Amount"
+                        value={tokenamt}
+                        inputRef={amtRef}
+                        type="number"
+                        onChange={(e) => setTokenamt(e.target.value)}
+                      />
+                      <Box
+                        sx={{
+                          pt: 2
+                        }}
+                      ></Box>
+
+                      <Button size="small" variant="outlined" color="success">
+                        Buy
+                      </Button> {' '}
+                    </Box>
+
+                    <Box
+                      display="flex"
+                      sx={{
+                        py: 4
+                      }}
+                      alignItems="center"
+                    >
+
+                      <Box>
+                        <Typography variant="h4">No Win Case</Typography>
+                        <Typography variant="subtitle2" noWrap>
+                          Each 5 Matic send to 4 lucky address in the slot.
+                        </Typography>
+                        <Typography variant="subtitle2" noWrap>
+                          Each 1 Matic send to 30 lucky address in the slot.
+                        </Typography>
+                        <Typography variant="subtitle2" noWrap>
+                          No Matic Balance found after slot completion.Try next time.
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  <Grid container spacing={3}>
+
+                  </Grid>
+                </Box>
+              </Grid>
+
+              <Grid
+                sx={{
+                  position: 'relative'
+                }}
+                display="flex"
+                alignItems="center"
+                item
+                xs={12}
+                md={6}
+              >
                 <Box
-                sx={{
-                  pt: 1
-                }}
-              > </Box>
+                  component="span"
+                  sx={{
+                    display: { xs: 'none', md: 'inline-block' }
+                  }}
+                >
+                  <Divider absolute orientation="vertical" />
+                </Box>
 
 
-              {loadingsch && (
-                <Button variant="outlined" size="small" color="primary" onClick={callSponsor} 
-                disabled={loadingfind}  endIcon={<SearchTwoToneIcon fontSize="small" />}
-                >Find Sponsor Address</Button>
-              )}
 
-              {isConnected && loadingfind && ( 
-                <CircularProgress color="primary" size={20} />
-              )}
-              { ' ' }
-              {errormsgfi && (<Button  size="small" startIcon={<ErrorOutlineIcon fontSize="small" />}  variant="outlined" color="warning" style={{textAlign: 'left'}}
-                  onClick={() => setErrormsgfi(null)} >{errormsgfi}</Button>)}
-
-              <Box
-                sx={{
-                  pt: 1
-                }}
-              > </Box>
+                <Box py={4} pr={4} flex={1}>
 
 
-      {cartItems.length > 0 && (
-      <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3} item>
-        <CardAddAction>
-            <CardContent>
-            <Typography variant="subtitle1">
-                Click to copy address into Sponsor Address Box.
-              </Typography>
+                  <Grid container spacing={0}>
 
-            {cartItems.map((item) => (
-          
-          <Box
-          key={item.id} 
-          sx={{
-            pt: 1
-          }}
-        >
-          <Button variant="outlined" size="small" onClick={(e) => { setSponaddress(item.value); addressRef.current.focus(); callAdmin(item.value); } }>
-          {item.value.substr(0, 10)} 
-          </Button> 
+                    <Grid
+                      xs={12}
+                      sm={5}
+                      item
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
 
-          </Box>
-          ))}
+                      <Box p={4}>
 
-            </CardContent>
-            </CardAddAction>
-            </Grid>
-            </Grid> )}
+                        <Box>
+                          <Typography variant="h1" gutterBottom>
+                            <Text color="success">50M</Text>
+                          </Typography>
+                          <Typography
+                            variant="h4"
+                            fontWeight="normal"
+                            color="text.secondary"
+                          >
+                            <Text color="success">Ongoing Slot</Text>
+                          </Typography>
+                          <Box
+                            display="flex"
+                            sx={{
+                              py: 4
+                            }}
+                            alignItems="center"
+                          >
+                            <Box>
+                              <Typography variant="h4">49M</Typography>
+                              <Typography variant="subtitle2" noWrap>
+                                completed slot
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                        <Grid container spacing={3}>
 
-            <Box
-                sx={{
-                  pt: 3
-                }}
-              > </Box>
+                        </Grid>
+                      </Box>
 
-            <Typography>Simple Usage Steps:  </Typography>
-            <Breadcrumbs separator="›" aria-label="breadcrumb">
-                  {breadcrumbs}
-                </Breadcrumbs>
-
-                <Box
-                sx={{
-                  pt: 2
-                }}
-              > </Box>
-
-                <Typography>Copy the fastx
-                {' '}
-                     <Chip
-                          sx={{
-                            mr: 0.5
-                          }}
-                          variant="outlined"
-                          size="small"
-                          label="sponsor"
-                          color="primary"
-                          onClick={(e) => { setSponaddress(FXSPONSOR); addressRef.current.focus(); callAdmin(FXSPONSOR); } }
-                        /> 
-                       and check health.Then proceed to buy token.
-                  
-                   </Typography>
-
-                   <Box
-                sx={{
-                  pt: 2
-                }}
-              > </Box>
-                <Typography>For Deep Dive on sponsor finding, please check the { ' '}
-                <Link
-            href={DSTATECT}
-            target="_blank"
-            rel="noopener noreferrer"
-          >Contract </Link> BuyPack Transactions </Typography>
-
-                  </AccordionDetails>
-                </Accordion>
-                <Divider /> */}
-
-<Grid container spacing={4}>
-                      <Grid item xs={12} >
-                        <AccountBalance />
-                      </Grid>
-        
                     </Grid>
+
+
+
+
+                    <Grid xs={12} sm={7} item display="flex" alignItems="center">
+
+                      <Box
+                        sx={{
+                          pt: 3
+                        }}
+                      >
+                        <TextField
+                          required
+                          id="outlined-required"
+                          label="Matic Amount"
+                          value={tokenamt}
+                          inputRef={amtRef}
+                          type="number"
+                        // onChange={(e) => setTokenamt(e.target.value)}
+                        />
+                        <Box
+                          sx={{
+                            pt: 2
+                          }}
+                        ></Box>
+
+                        <Button size="small" variant="outlined" color="success">
+                          Withdraw
+                        </Button>{'   '}
+                        <Button size="small" variant="outlined" color="success">
+                          Buy Again
+                        </Button>
+
+                        <Box
+                          sx={{
+                            pt: 2
+                          }}
+                        ></Box>
+
+                        <Typography variant="h5" >
+                          Available balance: 20 Matic
+                        </Typography>
+
+
+                      </Box>
+
+
+
+                    </Grid>
+
+
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+          </Card>
+
+
+        </Grid>
+
+      </Grid>
 
       <Box
         py={1}
@@ -754,212 +834,6 @@ const callAdmin = async (sponaddress) => {
       ></Box>
 
  {/* row -1 */}
-      <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1
-            }}
-          >
-            <CardContent>
-              <Box display="flex" alignItems="center" pl={0.3} justifyContent="space-between">
-                <CardTravelIcon variant="outlined" fontSize="large" color="success"/>
-                {isConnected && loadingr && (  <CircularProgress color="primary" size={20} />   )}
-              </Box>
-              <Typography variant="h5" noWrap>
-                Slot Users Indicator
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                
-              </Typography>
-              <Box
-                sx={{
-                  pt: 3
-                }}
-              >
-                <Typography variant="h3" gutterBottom noWrap>
-                  {/* {pkgvalue} Matic */}
-                </Typography>
-                <Box>
-                    <Rating value={rate} defaultValue={5} precision={1} size="small" readOnly />
-                </Box>
-                <Typography variant="subtitle1" >
-                  5 star indicates slot completion and new slot begins.
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1
-            }}
-          >
-            <CardContent>
-            <Box display="flex" alignItems="center" pl={0.3} justifyContent="space-between">
-                <PaidIcon variant="outlined" fontSize="large" color="success"/>
-                {isConnected && loadingr && (  <CircularProgress color="primary" size={20} />   )}
-              </Box>
-              <Typography variant="h5" noWrap>
-                Available balance
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                5.0 Matic
-              </Typography>
-              <Box
-                sx={{
-                  pt: 3
-                }}
-              >
-                  <TextField
-                      required
-                      id="outlined-required"
-                      label="Matic Amount"
-                      value={tokenamt}
-                      inputRef={amtRef}
-                      type="number"
-                      onChange={(e) => setTokenamt(e.target.value)}
-                    />
-                  <Box
-                sx={{
-                  pt: 2
-                }}
-              ></Box>
-
-                <Button  size="small"  variant="outlined" color="success">
-                  Withdraw
-                </Button>{'   '}
-                <Button  size="small"  variant="outlined" color="success">
-                  Buy Again
-                </Button>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1
-            }}
-          >
-            <CardContent>
-            <Box display="flex" alignItems="center" pl={0.3} justifyContent="space-between">
-                <PaidIcon variant="outlined" fontSize="large" color="success"/>
-                {isConnected && loadingr && (  <CircularProgress color="primary" size={20} />   )}
-              </Box>
-              <Typography variant="h5" noWrap>
-                Ticket Counter
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                3 Chances to win 50
-              </Typography>
-              <Box
-                sx={{
-                  pt: 3
-                }}
-              >
-                  <TextField
-                      required
-                      id="outlined-required"
-                      label="Matic Amount"
-                      value={tokenamt}
-                      inputRef={amtRef}
-                      type="number"
-                      onChange={(e) => setTokenamt(e.target.value)}
-                    />
-                  <Box
-                sx={{
-                  pt: 2
-                }}
-              ></Box>
-
-                <Button  size="small"  variant="outlined" color="success">
-                  Buy
-                </Button>{'   '}
-                {/* <Button  size="small"  variant="outlined" color="success">
-                  Play Again
-                </Button> */}
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-
-        {/* <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1
-            }}
-          >
-            <CardContent>
-            <Box display="flex" alignItems="center" pl={0.3} justifyContent="space-between">
-                <GroupIcon variant="outlined" fontSize="large" color="primary"/>
-                {isConnected && loadingr && (  <CircularProgress color="primary" size={20} />   )}
-              </Box>
-              <Typography variant="h5" noWrap>
-                Downline
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                token holders {subordinates}
-              </Typography>
-              <Box
-                sx={{
-                  pt: 3
-                }}
-              >
-                <Typography variant="h3" gutterBottom noWrap>
-                  {refbouns} Matic
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-                  Referral Bouns Income
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-         */}
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1
-            }}
-          >
-            <CardContent>
-            <Box display="flex" alignItems="center" pl={0.3} justifyContent="space-between">
-                <PersonOutlineIcon variant="outlined" fontSize="large" color="success"/>
-                {isConnected && loadingr && (  <CircularProgress color="primary" size={20} />   )}
-              </Box>
-              <Typography variant="h5" noWrap>
-                Matic Spinner
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-               spins in the blockchain
-              </Typography>
-              <Box
-                sx={{
-                  pt: 3
-                }}
-              >
-                <Typography variant="h3" gutterBottom noWrap>
-                  {levelnumber}
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-                  Level 
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-
-      <Box
-        py={3}
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-      ></Box>
 
 
 <Box
