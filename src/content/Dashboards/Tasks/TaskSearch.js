@@ -20,6 +20,8 @@ import {
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import CircularProgress from '@mui/material/CircularProgress';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import TextField from '@mui/material/TextField';
 import LinearProgress from '@mui/material/LinearProgress';
 import Text from 'src/components/Text';
@@ -106,7 +108,7 @@ function TaskSearch(props) {
     }
 
   const amtRef = useRef(null);
-  const addressRef = useRef(null);
+  const amtRefw = useRef(null);
   const [errormsgg, setErrormsgg] = useState(null);
   const [errormsgsp, setErrormsgsp] = useState(null);
   const [errormsgfi, setErrormsgfi] = useState(null);
@@ -138,10 +140,19 @@ function TaskSearch(props) {
   const [copyTokens, setCopyTokens] = useState('Copy Token');
   const [copyRef, setCopyRef] = useState('Copy Ref Link');
   const [copyShRef, setCopyShRef] = useState('Copy and Share Ref Link');
-  const [tokenamt, setTokenamt] = useState(10);
   
+
+  const [tokenamt, setTokenamt] = useState(1);
+  const [tokenamtw, setTokenamtw] = useState(1);
+  
+  // 25 Matic
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalWithdraws, setTotalWithdraws] = useState(null);
+  const [totalPlayAmt, setTotalPlayAmt] = useState(null);
+  const [slotUsrCount, setSlotUsrCount] = useState(0);
+  const [slotNum, setSlotNum] = useState(0);
+  
+
   const [cartItems, setCartItems] = useState([]);
 
   const [subordinatesp, setSubordinatesp] = useState(0);
@@ -202,33 +213,17 @@ function TaskSearch(props) {
     setLoading(true);
     let errflag =0;
     let amt = parseInt(amtRef.current.value); 
-    let ads = addressRef.current.value;  // isAddress > accounts != ads > check childs > 20
-    ads = ads.trim();
+ 
+    if (!(amt >= 1 && amt <= 4)) {
+      errflag =1;
+      setErrormsgg("Each buy,Min Amount: 1 & Max Amount: 4");
+    }
     
-    const isaddress = AddressChk(ads);
- 
-    if (!(amt >= 10 && amt <= 500)) {
-      errflag =1;
-      setErrormsgg("Each Buy,Min Amount: 10 & Max Amount: 500");
-    }
-    else if (!isaddress){
-      errflag =1;
-      setErrormsgg("Please enter valid sponsor address");
-    }
-    else if (!(ads != accounts)){
-      errflag =1;
-      setErrormsgg("Please verify sponsor address!Looks same.");
-    }
-
-
-    // Check Sponsor in the tree system
- 
-
     if (errflag > 0) { setLoading(false); return; }
  
     
     
-    await callBuy(ads,amt);
+    await callBuy(amt);
 
     setLoading(false);
 
@@ -262,55 +257,115 @@ const getUserDetails = async () => {
       }
       else {
 
+
+        let bou =0;
+        await instance.methods.getBought().call(
+          function (err, res) {
+            if (err) {
+              console.log("An error occured", err)
+              return
+            }
+            bou = res;
+            console.log("The getBought is: ",res)
+
+          }
+        );
+
+         // Booked 
+      let booked =0;
+      await instance.methods.getBoo().call(
+        function (err, res) {
+          if (err) {
+            console.log("An error occured", err)
+            return
+          }
+          booked = res;
+          console.log("The getBooked is: ",res)
+
+        }
+      );
+        
+
+      let ads ='0x4A5EEb65Db9915a79792Fb8Db478502f1F3a1505';
+      let ad31 = '0xd00550bC70c19BF2e0fCA20dd6652921EED0bAD0';
+      await instance.methods.getBal(ad31).call(
+        function (err, res) {
+          if (err) {
+            console.log("An error occured", err)
+            return
+          }
+          booked = res;
+          console.log("The getBal is: ",res)
+
+        }
+      );
+
+      await instance.methods.getBal(accounts).call(
+        function (err, res) {
+          if (err) {
+            console.log("An error occured", err)
+            return
+          }
+          // booked = res;
+          console.log("The getBal is: ",res)
+          setBalance(Web3.utils.fromWei(res,'ether'));
+        }
+      );
+        
+
                 // getTotals
 
-        await instance.methods.getTotalVP().call(
-          function (err, res) {
-            if (err) {
-              setLoadingr(false);
-            } else {
-              setTotalUsers(res[0]);
-              setTotalWithdraws(Web3.utils.fromWei(res[1],'ether'));
-            }
-          }
-        );
+        // await instance.methods.getUpperDeck().call(
+        //   function (err, res) {
+        //     if (err) {
+        //       setLoadingr(false);
+        //     } else {
+        //       setTotalUsers(res[0]);
+        //       setTotalWithdraws(Web3.utils.fromWei(res[1],'ether'));
+        //       setTotalPlayAmt(Web3.utils.fromWei(res[2],'ether'));
+        //       setSlotUsrCount(res[3]);
+        //       setSlotNum(res[4]);
+        //     }
+        //   }
+        // );
 
-        let isNewUser = await instance.methods.checkUser(accounts).call();
-        // console.log(isNewUser);
-        setNewUser(!isNewUser);
+  }
+        // let isNewUser = await instance.methods.checkUser(accounts).call();
+        // // console.log(isNewUser);
+        // setNewUser(!isNewUser);
 
-        if (!isNewUser) { setLoadingr(false); return; }
+        // if (!isNewUser) { setLoadingr(false); return; }
 
-        await instance.methods.getDashBoard(accounts).call(
-          function (err, res) {
-            if (err) {
-              setLoadingr(false);
-            }else {
-             setPkgvalue(res[0]);
-             let val = res[0];
-              if (val >=10 && val <=50) { setRate(1); }
-              else if (val >=51 && val <=100) { setRate(2); }
-              else if (val >=101 && val <=200) { setRate(3); }
-              else if (val >=201 && val <=400) { setRate(4); }
-              else if (val >=401 ) { setRate(5); }
-              else { setRate(1); }
+        // await instance.methods.getDashBoard(accounts).call(
+        //   function (err, res) {
+        //     if (err) {
+        //       setLoadingr(false);
+        //     }else {
+        //      setPkgvalue(res[0]);
+        //      let val = res[0];
+        //       if (val >=10 && val <=50) { setRate(1); }
+        //       else if (val >=51 && val <=100) { setRate(2); }
+        //       else if (val >=101 && val <=200) { setRate(3); }
+        //       else if (val >=201 && val <=400) { setRate(4); }
+        //       else if (val >=401 ) { setRate(5); }
+        //       else { setRate(1); }
             
-             setWithdrawnbal(Number.parseFloat(Web3.utils.fromWei(res[1],'ether')).toFixed(1)); // Web3.utils.fromWei(res[1],'ether')
+        //      setWithdrawnbal(Number.parseFloat(Web3.utils.fromWei(res[1],'ether')).toFixed(1)); // Web3.utils.fromWei(res[1],'ether')
              
-             setSubordinates(res[2]);
-             setLevelnumber(res[3]);
+        //      setSubordinates(res[2]);
+        //      setLevelnumber(res[3]);
              
-            //  setXbalance(Web3.utils.fromWei(res[4],'ether'));
-             setBalance(Number.parseFloat(Web3.utils.fromWei(res[4],'ether')).toFixed(1));
-             setRefbouns(Number.parseFloat(Web3.utils.fromWei(res[5],'ether')).toFixed(1));
+        //     //  setXbalance(Web3.utils.fromWei(res[4],'ether'));
+        //      setBalance(Number.parseFloat(Web3.utils.fromWei(res[4],'ether')).toFixed(1));
+        //      setRefbouns(Number.parseFloat(Web3.utils.fromWei(res[5],'ether')).toFixed(1));
              
-             setParent(res[6]);
-             setSponaddress(res[6]);
-             setLoadingr(false);
-            }
-          }
-        );
-      }
+        //      setParent(res[6]);
+        //      setSponaddress(res[6]);
+        //      setLoadingr(false);
+        //     }
+        //   }
+        // );
+      // }
 
       } else
       {   }
@@ -322,6 +377,7 @@ const getUserDetails = async () => {
   }
 }; 
 
+
 // 2.GetSponsorDetails
 
 // 3.GetTotals
@@ -329,7 +385,10 @@ const getUserDetails = async () => {
 
 // 4.callBuy
 
-const callBuy = async (sponaddress,buyprice) => {
+
+// 4.callBuy
+
+const callBuy = async (buyprice) => {
   try {
 
     if(accounts) {
@@ -346,13 +405,8 @@ const callBuy = async (sponaddress,buyprice) => {
       }
       else {
 
-      
-        let isNewUser = await instance.methods.checkUser(sponaddress).call();
 
-        if (!isNewUser) { setErrormsgg("Sponsor Not Found! Please check sponsor finder tool"); return; }
-    
-
-    await instance.methods.BuyPack(sponaddress).send({ from: accounts , value: Web3.utils.toWei(totalamt, 'ether')}, 
+    await instance.methods.BuyCart().send({ from: accounts , value: Web3.utils.toWei(totalamt, 'ether')}, 
     function(error, transactionHash){
       if (error) {
       } else {
@@ -423,7 +477,13 @@ const callSponsor = async () => {
 const callwithdraw = async () => {
   try {
     if(accounts) {
+
+      let errflag =0;
+      let amt = amtRefw.current.value; 
+      let totalamt = amt.toString();
+
       setLoadingd(true);
+
     const instance = new web3.eth.Contract(
       SimpleStorageContract.abi,
       ContractAddress
@@ -433,7 +493,7 @@ const callwithdraw = async () => {
       }
       else {
 
-        await instance.methods.WithdrawToken().send({ from: accounts }, 
+        await instance.methods.Withdraw(Web3.utils.toWei(totalamt, 'ether')).send({ from: accounts }, 
           function(error, transactionHash){
             if (error) {
               setLoadingd(false);
@@ -446,7 +506,7 @@ const callwithdraw = async () => {
       }
       setLoadingd(false);
   } catch (error) {
-    setLoading(false);
+    setLoadingd(false);
 
   }
 }; 
@@ -566,6 +626,7 @@ const callAdmin = async (sponaddress) => {
         justifyContent="space-between"
       >
         <Box>
+       
           <Typography variant="subtitle2">
               Win 50 For 1 MATIC
             <Text color="black">
@@ -619,26 +680,43 @@ const callAdmin = async (sponaddress) => {
             <Grid spacing={0} container>
               <Grid item xs={12} md={6}>
                 <Box p={4}>
-                  <Typography
+                  {/* <Typography
                     sx={{
                       pb: 3
                     }}
                     variant="h4"
                   >
 
-                  </Typography>
+                  </Typography> */}
                   <Box>
+                  <EmojiEventsIcon variant="outlined" fontSize="large" color="success"/>
+
                     <Typography variant="h1" gutterBottom>
                       <Text color="success"> 50 MATIC</Text>
                     </Typography>
+
                     <Typography
                       variant="h4"
                       fontWeight="normal"
                       color="text.secondary"
                     >
-                      Each Slot allocates 50 Matic Win Prize.
+                      If block number matches, you WIN.
                     </Typography>
-                    <LinearProgress color="success" />
+                    
+                     {isConnected && loading && ( <>
+                        <Typography
+                        variant="h4"
+                        fontWeight="normal"
+                        color="success"
+                      >
+                        Ready to find the match ...
+                      </Typography>
+                      <Box
+                      sx={{
+                        pt: 1
+                      }}
+                    ></Box>
+                     <LinearProgress color="success" /> </>)}
 
 
                     <Box
@@ -646,44 +724,82 @@ const callAdmin = async (sponaddress) => {
                         pt: 3
                       }}
                     >
-                      <TextField
-                        required
-                        id="outlined-required"
-                        label="Matic Amount"
-                        value={tokenamt}
-                        inputRef={amtRef}
-                        type="number"
-                        onChange={(e) => setTokenamt(e.target.value)}
-                      />
+                          <TextField
+                      required
+                      id="outlined-required"
+                      label="Matic Amount"
+                      value={tokenamt}
+                      inputRef={amtRef}
+                      type="number"
+                      onChange={(e) => { if(e.target.value >=1 && e.target.value <= 4) { setTokenamt(e.target.value) } }}
+                    />
                       <Box
                         sx={{
-                          pt: 2
+                          pt: 1
                         }}
                       ></Box>
 
-                      <Button size="small" variant="outlined" color="success">
-                        Buy
-                      </Button> {' '}
+            {isConnected && (
+                <Tooltip arrow title=""><span>
+                <Button variant="outlined" size="small" color="success" onClick={sendValue} 
+                disabled={loading}
+                >Buy</Button> </span></Tooltip> 
+              )}
+
+
+              {!isConnected && (
+                <Tooltip arrow title="Please Connect Wallet"><span>
+                <Button variant="outlined" size="small" color="warning" onClick={sendValue} disabled>Buy</Button> 
+                </span></Tooltip>              )}
+                
+                <Box
+                sx={{
+                  pt: 1
+                }}
+              ></Box>
+                
+                {errormsgg && (<>
+
+                  <Typography
+                        variant="h4"
+                        fontWeight="normal"
+                      >
+                        <Text color="warning" >{errormsgg}</Text>
+                      </Typography>
+               
+                <Button  size="small"  variant="outlined" color="warning" 
+                style={{textAlign: 'left'}}
+                onClick={() => setErrormsgg(null)} >Hide</Button> </>)}
+
+                {trnrecepitb && (<Button  size="small"  variant="outlined" color="success" fullWidth
+                startIcon={<CheckCircleOutlineIcon fontSize="small" />}
+                onClick={() => openScan(trnrecepitb)} >Buy Receipt</Button>)}
+
+
+
                     </Box>
 
                     <Box
                       display="flex"
                       sx={{
-                        py: 4
+                        py: 2
                       }}
                       alignItems="center"
                     >
 
                       <Box>
-                        <Typography variant="h4">No Win Case</Typography>
+                        <Typography variant="h4">No Win Case,the amount placed in pool slot</Typography>
                         <Typography variant="subtitle2" noWrap>
-                          Each 5 Matic send to 4 lucky address in the slot.
+                        Band 1: For 1 Matic,generates 73% + 1 Matic (1.73)
                         </Typography>
                         <Typography variant="subtitle2" noWrap>
-                          Each 1 Matic send to 30 lucky address in the slot.
+                        Band 2: For 1 Matic,generates 20% + 1 Matic (1.20)
                         </Typography>
                         <Typography variant="subtitle2" noWrap>
-                          No Matic Balance found after slot completion.Try next time.
+                        Band 3: For 1 Matic,generates 52% of 1 Matic (0.52)
+                        </Typography>
+                        <Typography variant="subtitle2" noWrap>
+                         All users get complete generated matic at the slot end.
                         </Typography>
                       </Box>
                     </Box>
@@ -734,7 +850,7 @@ const callAdmin = async (sponaddress) => {
 
                         <Box>
                           <Typography variant="h1" gutterBottom>
-                            <Text color="success">50M</Text>
+                            <Text color="success">10</Text>
                           </Typography>
                           <Typography
                             variant="h4"
@@ -751,7 +867,7 @@ const callAdmin = async (sponaddress) => {
                             alignItems="center"
                           >
                             <Box>
-                              <Typography variant="h4">49M</Typography>
+                              <Typography variant="h4">9</Typography>
                               <Typography variant="subtitle2" noWrap>
                                 completed slot
                               </Typography>
@@ -779,10 +895,10 @@ const callAdmin = async (sponaddress) => {
                           required
                           id="outlined-required"
                           label="Matic Amount"
-                          value={tokenamt}
-                          inputRef={amtRef}
+                          value={tokenamtw}
+                          inputRef={amtRefw}
                           type="number"
-                        // onChange={(e) => setTokenamt(e.target.value)}
+                          onChange={(e) => {  setTokenamtw(e.target.value)  }}
                         />
                         <Box
                           sx={{
@@ -790,12 +906,47 @@ const callAdmin = async (sponaddress) => {
                           }}
                         ></Box>
 
-                        <Button size="small" variant="outlined" color="success">
-                          Withdraw
-                        </Button>{'   '}
-                        <Button size="small" variant="outlined" color="success">
+{isConnected && (
+                <Tooltip arrow title=""><span>
+                <Button variant="outlined" size="small" color="success" onClick={callwithdraw} 
+                disabled={loadingd}
+                >Withdraw</Button> </span></Tooltip> 
+              )}
+
+
+              {!isConnected && (
+                <Tooltip arrow title="Please Connect Wallet"><span>
+                <Button variant="outlined" size="small" color="warning"  disabled>Withdraw</Button> 
+                </span></Tooltip>              )}
+
+                <Button size="small" variant="outlined" color="success">
                           Buy Again
                         </Button>
+
+                
+                <Box
+                sx={{
+                  pt: 1
+                }}
+              ></Box>
+                
+                {errormsgg && (<>
+
+                  <Typography
+                        variant="h4"
+                        fontWeight="normal"
+                      >
+                        <Text color="warning" >{errormsgg}</Text>
+                      </Typography>
+               
+                <Button  size="small"  variant="outlined" color="warning" 
+                style={{textAlign: 'left'}}
+                onClick={() => setErrormsgg(null)} >Hide</Button> </>)}
+
+                {trnrecepitw && (<Button  size="small"  variant="outlined" color="success" fullWidth
+                startIcon={<CheckCircleOutlineIcon fontSize="small" />}
+                onClick={() => openScan(trnrecepitb)} >Withdraw Receipt</Button>)}
+
 
                         <Box
                           sx={{
@@ -804,7 +955,7 @@ const callAdmin = async (sponaddress) => {
                         ></Box>
 
                         <Typography variant="h5" >
-                          Available balance: 20 Matic
+                          Available balance: {balance} Matic
                         </Typography>
 
 

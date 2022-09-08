@@ -1,4 +1,4 @@
-export const CONTADDRESS = '0xDf449Afb7510f075f0Aa0D8E4730da16191662A9'; // Contract Address
+export const CONTADDRESS = '0x1A6c852F07559869b839A8b136E304a78f1e12F1'; // Contract Address
 export const TOKENADDRESS = '0xC27ba3a6d8AE2Ba1de1D7207Ed72bB54bDE5f904'; // FASTX Token
 export const FXSPONSOR = '0xC5AD7CEEF9AF83FB8A4F796BdddA90CC6FB97222';
 export const TXNURL = 'https://polygonscan.com/tx/';

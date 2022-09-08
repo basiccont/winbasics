@@ -224,9 +224,9 @@ function TaskSearch(props) {
     let errflag =0;
     let amt = parseInt(amtRef.current.value); 
  
-    if (!(amt >= 1 && amt <= 3)) {
+    if (!(amt >= 1 && amt <= 4)) {
       errflag =1;
-      setErrormsgg("Each Buy,Min Amount: 1 & Max Amount: 3");
+      setErrormsgg("Each Bet,Min Amount: 1 & Max Amount: 4");
     }
     
     if (errflag > 0) { setLoading(false); return; }
@@ -267,21 +267,50 @@ const getUserDetails = async () => {
       }
       else {
 
-                // getTotals
 
-        await instance.methods.getUpperDeck().call(
+        let bou =0;
+        await instance.methods.getBought().call(
           function (err, res) {
             if (err) {
-              setLoadingr(false);
-            } else {
-              setTotalUsers(res[0]);
-              setTotalWithdraws(Web3.utils.fromWei(res[1],'ether'));
-              setTotalPlayAmt(Web3.utils.fromWei(res[2],'ether'));
-              setSlotUsrCount(res[3]);
-              setSlotNum(res[4]);
+              console.log("An error occured", err)
+              return
             }
+            bou = res;
+            console.log("The getBought is: ",res)
+
           }
         );
+
+         // Booked 
+      let booked =0;
+      await instance.methods.getBoo().call(
+        function (err, res) {
+          if (err) {
+            console.log("An error occured", err)
+            return
+          }
+          booked = res;
+          console.log("The getBooked is: ",res)
+
+        }
+      );
+        
+
+                // getTotals
+
+        // await instance.methods.getUpperDeck().call(
+        //   function (err, res) {
+        //     if (err) {
+        //       setLoadingr(false);
+        //     } else {
+        //       setTotalUsers(res[0]);
+        //       setTotalWithdraws(Web3.utils.fromWei(res[1],'ether'));
+        //       setTotalPlayAmt(Web3.utils.fromWei(res[2],'ether'));
+        //       setSlotUsrCount(res[3]);
+        //       setSlotNum(res[4]);
+        //     }
+        //   }
+        // );
 
   }
         // let isNewUser = await instance.methods.checkUser(accounts).call();
@@ -356,7 +385,7 @@ const callBuy = async (buyprice) => {
       else {
 
 
-    await instance.methods.buyTicket().send({ from: accounts , value: Web3.utils.toWei(totalamt, 'ether')}, 
+    await instance.methods.BuyCart().send({ from: accounts , value: Web3.utils.toWei(totalamt, 'ether')}, 
     function(error, transactionHash){
       if (error) {
       } else {
@@ -750,7 +779,7 @@ const callAdmin = async (sponaddress) => {
                       value={tokenamt}
                       inputRef={amtRef}
                       type="number"
-                      onChange={(e) => { if(e.target.value >=1 && e.target.value <= 3) { setTokenamt(e.target.value) } }}
+                      onChange={(e) => { if(e.target.value >=1 && e.target.value <= 4) { setTokenamt(e.target.value) } }}
                     />
                   <Box
                 sx={{

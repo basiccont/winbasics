@@ -1,21 +1,21 @@
 {
-  "contractName": "WinTwentyFlat",
+  "contractName": "SimpleStorageV5NFT",
   "abi": [
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "_jellyy",
+          "type": "address"
+        },
+        {
           "internalType": "uint256",
-          "name": "_trcount",
+          "name": "_boo",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "_win",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_wins",
+          "name": "_fun",
           "type": "uint256"
         }
       ],
@@ -42,18 +42,23 @@
       "type": "event"
     },
     {
-      "inputs": [],
-      "name": "ctow",
-      "outputs": [
+      "anonymous": false,
+      "inputs": [
         {
+          "indexed": false,
           "internalType": "address",
-          "name": "",
+          "name": "_to",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "toPay",
+          "type": "uint256"
         }
       ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "name": "withdrawEvent",
+      "type": "event"
     },
     {
       "inputs": [],
@@ -77,48 +82,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "slotnumber",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "totalbuyer",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "totalplayvalue",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
       "inputs": [
         {
           "internalType": "address",
@@ -132,60 +95,48 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "trcount",
-      "outputs": [
+      "inputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "_minSpinAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_maxSpinAmount",
           "type": "uint256"
         }
       ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "name": "SetMinSpinAmount",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      "inputs": [],
-      "name": "usercount",
-      "outputs": [
+      "inputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "_n",
           "type": "uint256"
         }
       ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "name": "SetF",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      "inputs": [],
-      "name": "win",
-      "outputs": [
+      "inputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "_numBoo",
           "type": "uint256"
         }
       ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "wins",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "name": "SetNB",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "inputs": [],
@@ -210,7 +161,86 @@
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
-        },
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "getCTBal",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "getCTFeeDiv",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "getCTFeeMul",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "getMinSpinAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "getBought",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "getBoo",
+      "outputs": [
         {
           "internalType": "uint256",
           "name": "",
@@ -245,115 +275,43 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_minAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_maxAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_maxxAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_targetAmount",
+          "name": "_index",
           "type": "uint256"
         }
       ],
-      "name": "SetMinSpinAmount",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_twwo",
-          "type": "uint256"
-        }
-      ],
-      "name": "SetValuePack",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_one",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_two",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_three",
-          "type": "uint256"
-        }
-      ],
-      "name": "Setwins",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "buyTicket",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function",
-      "payable": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_reqamt",
-          "type": "uint256"
-        }
-      ],
-      "name": "buyAgain",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function",
-      "payable": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_reqamt",
-          "type": "uint256"
-        }
-      ],
-      "name": "withdraw",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function",
-      "payable": true
-    },
-    {
-      "inputs": [],
-      "name": "getBalance",
+      "name": "getFunder",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "address",
           "name": "",
-          "type": "uint256"
+          "type": "address"
         }
       ],
       "stateMutability": "view",
       "type": "function",
       "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "BuyCart",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function",
+      "payable": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_reqamt",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdraw",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function",
+      "payable": true
     }
   ]
 }
