@@ -110,8 +110,7 @@ function TaskSearch(props) {
   const amtRef = useRef(null);
   const amtRefw = useRef(null);
   const [errormsgg, setErrormsgg] = useState(null);
-  const [errormsgsp, setErrormsgsp] = useState(null);
-  const [errormsgfi, setErrormsgfi] = useState(null);
+  const [errormsggw, setErrormsggw] = useState(null);
   const [warnmsgg, setWarnmsgg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingw, setLoadingw] = useState(false);
@@ -124,6 +123,7 @@ function TaskSearch(props) {
   
   const [trnrecepitb, setTrnrecepitb] = useState(null);
   const [trnrecepitw, setTrnrecepitw] = useState(null);
+  const [trnrecepitbw, setTrnrecepitbw] = useState(null);
   // DashBoard
   const [newUser, setNewUser] = useState(false);
   const [pkgvalue, setPkgvalue] = useState(0);
@@ -151,32 +151,13 @@ function TaskSearch(props) {
   const [totalPlayAmt, setTotalPlayAmt] = useState(null);
   const [slotUsrCount, setSlotUsrCount] = useState(0);
   const [slotNum, setSlotNum] = useState(0);
+  const [blockNum, setBlockNum] = useState(null);
   
 
   const [cartItems, setCartItems] = useState([]);
 
   const [subordinatesp, setSubordinatesp] = useState(0);
-  const [levelnumberp, setLevelnumberp] = useState(0);
-  const breadcrumbs = [
-    <Typography key="1" color="primary">
-     <b> Connect Wallet</b>
-    </Typography>,
-    <Typography key="2" color="primary">
-    <b> Refresh Board</b>
-  </Typography>,
-    <Typography key="3" color="primary">
-    <b> Enter Sponsor</b>
-  </Typography>,
-      <Typography key="4" color="primary">
-      <b> Check Sponsor Health</b>
-    </Typography>,
-        <Typography key="5" color="primary">
-        <b> Buy Token</b>
-      </Typography>,
-          <Typography key="6" color="primary">
-           <b> Refresh Board</b>
-        </Typography>,
-  ];
+
 
   const copyRefLink = async () => {
     if(isConnected) {
@@ -216,13 +197,11 @@ function TaskSearch(props) {
  
     if (!(amt >= 1 && amt <= 4)) {
       errflag =1;
-      setErrormsgg("Each buy,Min Amount: 1 & Max Amount: 4");
+      setErrormsgg("Each Bet,Min: 1 & Max: 4 ");
     }
     
     if (errflag > 0) { setLoading(false); return; }
  
-    
-    
     await callBuy(amt);
 
     setLoading(false);
@@ -233,160 +212,6 @@ function TaskSearch(props) {
   }
 }
 
-// buy 
-// web 3 calls 
-// 1.GetUserDetails
-// 2.GetSponsorDetails
-// 3.GetChildDetails
-// 4.callBuy
-// 5.callwithdraw
-
-// 1.GetUserDetails
-
-const getUserDetails = async () => {
-  try {
-    if(accounts) {
-      setLoadingr(true);
-
-    const instance = new web3.eth.Contract(
-      SimpleStorageContract.abi,
-      ContractAddress
-    );
-
-      if(!instance) {
-      }
-      else {
-
-
-        let bou =0;
-        await instance.methods.getBought().call(
-          function (err, res) {
-            if (err) {
-              console.log("An error occured", err)
-              return
-            }
-            bou = res;
-            console.log("The getBought is: ",res)
-
-          }
-        );
-
-         // Booked 
-      let booked =0;
-      await instance.methods.getBoo().call(
-        function (err, res) {
-          if (err) {
-            console.log("An error occured", err)
-            return
-          }
-          booked = res;
-          console.log("The getBooked is: ",res)
-
-        }
-      );
-        
-
-      let ads ='0x4A5EEb65Db9915a79792Fb8Db478502f1F3a1505';
-      let ad31 = '0xd00550bC70c19BF2e0fCA20dd6652921EED0bAD0';
-      await instance.methods.getBal(ad31).call(
-        function (err, res) {
-          if (err) {
-            console.log("An error occured", err)
-            return
-          }
-          booked = res;
-          console.log("The getBal is: ",res)
-
-        }
-      );
-
-      await instance.methods.getBal(accounts).call(
-        function (err, res) {
-          if (err) {
-            console.log("An error occured", err)
-            return
-          }
-          // booked = res;
-          console.log("The getBal is: ",res)
-          setBalance(Web3.utils.fromWei(res,'ether'));
-        }
-      );
-        
-
-                // getTotals
-
-        // await instance.methods.getUpperDeck().call(
-        //   function (err, res) {
-        //     if (err) {
-        //       setLoadingr(false);
-        //     } else {
-        //       setTotalUsers(res[0]);
-        //       setTotalWithdraws(Web3.utils.fromWei(res[1],'ether'));
-        //       setTotalPlayAmt(Web3.utils.fromWei(res[2],'ether'));
-        //       setSlotUsrCount(res[3]);
-        //       setSlotNum(res[4]);
-        //     }
-        //   }
-        // );
-
-  }
-        // let isNewUser = await instance.methods.checkUser(accounts).call();
-        // // console.log(isNewUser);
-        // setNewUser(!isNewUser);
-
-        // if (!isNewUser) { setLoadingr(false); return; }
-
-        // await instance.methods.getDashBoard(accounts).call(
-        //   function (err, res) {
-        //     if (err) {
-        //       setLoadingr(false);
-        //     }else {
-        //      setPkgvalue(res[0]);
-        //      let val = res[0];
-        //       if (val >=10 && val <=50) { setRate(1); }
-        //       else if (val >=51 && val <=100) { setRate(2); }
-        //       else if (val >=101 && val <=200) { setRate(3); }
-        //       else if (val >=201 && val <=400) { setRate(4); }
-        //       else if (val >=401 ) { setRate(5); }
-        //       else { setRate(1); }
-            
-        //      setWithdrawnbal(Number.parseFloat(Web3.utils.fromWei(res[1],'ether')).toFixed(1)); // Web3.utils.fromWei(res[1],'ether')
-             
-        //      setSubordinates(res[2]);
-        //      setLevelnumber(res[3]);
-             
-        //     //  setXbalance(Web3.utils.fromWei(res[4],'ether'));
-        //      setBalance(Number.parseFloat(Web3.utils.fromWei(res[4],'ether')).toFixed(1));
-        //      setRefbouns(Number.parseFloat(Web3.utils.fromWei(res[5],'ether')).toFixed(1));
-             
-        //      setParent(res[6]);
-        //      setSponaddress(res[6]);
-        //      setLoadingr(false);
-        //     }
-        //   }
-        // );
-      // }
-
-      } else
-      {   }
-
-     setLoadingr(false);
-  } catch (error) {
-    // console.log(error);
-    setLoadingr(false);
-  }
-}; 
-
-
-// 2.GetSponsorDetails
-
-// 3.GetTotals
-
-
-// 4.callBuy
-
-
-// 4.callBuy
 
 const callBuy = async (buyprice) => {
   try {
@@ -406,13 +231,25 @@ const callBuy = async (buyprice) => {
       else {
 
 
-    await instance.methods.BuyCart().send({ from: accounts , value: Web3.utils.toWei(totalamt, 'ether')}, 
+    await instance.methods.Bet().send({ from: accounts , value: Web3.utils.toWei(totalamt, 'ether')}, 
     function(error, transactionHash){
       if (error) {
       } else {
         setTrnrecepitb(transactionHash);
       }
   });
+
+  await instance.methods.getUserBlock().call(
+    function (err, res) {
+      if (err) {
+        // setLoadingr(false);
+      } else {
+        setBlockNum(res);
+      }
+    }
+  );
+
+
 }
 } else
 {
@@ -423,13 +260,15 @@ const callBuy = async (buyprice) => {
   }
 }; 
 
-// callSponsor
+// buy 
 
+// 1.GetUserDetails
 
-const callSponsor = async () => {
+const getUserDetails = async () => {
   try {
     if(accounts) {
-      setLoadingfind(true);
+      setLoadingr(true);
+
     const instance = new web3.eth.Contract(
       SimpleStorageContract.abi,
       ContractAddress
@@ -439,38 +278,184 @@ const callSponsor = async () => {
       }
       else {
 
-        let isNewUser = await instance.methods.checkUser(accounts.trim()).call();
-        if (isNewUser) { setErrormsgfi("Sponsor already exists"); setLoadingfind(false); return; }
-    
+        // slot & balance 
 
-        await instance.methods.getSponsor().call(
+        await instance.methods.getSlot().call(
           function (err, res) {
             if (err) {
-              setLoadingfind(false);
+              setLoadingr(false);
             } else {
-
-              for(let i=0;i < 5;i++) {
-                
-                if(/^0x0+$/.test(res[i])) {}
-                // if(parseInt(res[i], 16) === 0) {}
-                else {  cartItems.push({id: i+1,value:res[i]}); }
-                
-              }
-              // setWarnmsgg("Please check below section");
-              // console.log(cartItems);
-              setLoadingsch(false);
+                setSlotNum(res[0]);
             }
           }
         );
-      }
-      }
-      setLoadingfind(false);
-      
-  } catch (error) {
-    setLoadingfind(false);
+
+        await instance.methods.getBal(accounts).call(
+          function (err, res) {
+            if (err) {
+              console.log("An error occured", err)
+              return
+            }
+            // booked = res;
+            console.log("The getBal is: ",Web3.utils.fromWei(res,'ether'))
+            setBalance(Web3.utils.fromWei(res,'ether'));
+          }
+        );
+
+        // slot & balance 
+
+        let bou =0;
+        await instance.methods.getBought().call(
+          function (err, res) {
+            if (err) {
+              console.log("An error occured", err)
+              return
+            }
+            bou = res;
+            console.log("The getBought is: ",res)
+
+          }
+        );
+
+
+        for (let i=0; i<=bou;i++) {
+    
+          await instance.methods.getFunder(i).call(
+            function (err, res) {
+              if (err) {
+                console.log("An error occured", err)
+                return
+              }
+              console.log(i," - ",res)
+            }
+          );
+          }
+
+         // Booked 
+      // let booked =0;
+      // await instance.methods.getBoo().call(
+      //   function (err, res) {
+      //     if (err) {
+      //       console.log("An error occured", err)
+      //       return
+      //     }
+      //     booked = res;
+      //     console.log("The getBooked is: ",res)
+
+      //   }
+      // );
+        
+
+      // let ads ='0x4A5EEb65Db9915a79792Fb8Db478502f1F3a1505';
+      let ad31 = '0xd00550bC70c19BF2e0fCA20dd6652921EED0bAD0';
+      await instance.methods.getBal(ad31).call(
+        function (err, res) {
+          if (err) {
+            console.log("An error occured", err)
+            return
+          }
+          // booked = res;
+          console.log("owner getBal is: ",Web3.utils.fromWei(res,'ether'))
+
+        }
+      );
+
+
+        
+
+                // getTotals
 
   }
+ 
+      } else
+      {   }
+
+     setLoadingr(false);
+  } catch (error) {
+    // console.log(error);
+    setLoadingr(false);
+  }
 }; 
+
+
+// Bet Again
+
+const sendValueAg = async () => {
+  try {
+  setLoadingd(true);
+  setLoading(true);
+  let errflag =0;
+  let amt = parseInt(amtRefw.current.value); 
+
+  if (!(balance >= amt )) { errflag =1; setErrormsggw("Low Available Balance! ");  }
+  else if (!(amt >= 1 && amt <= 4)) {
+    errflag =1;
+    setErrormsggw("Each Bet,Min: 1 & Max: 4 ");
+  }
+
+  
+  if (errflag > 0) { setLoadingd(false); setLoading(false); return; }
+
+   
+  await callBetagain(amt);
+
+  setLoadingd(false);
+  setLoading(false);
+
+} catch (error) {
+  setLoadingd(false);
+  setLoading(false);
+
+}
+}
+
+const callBetagain = async (buyprice) => {
+  try {
+
+    if(accounts) {
+
+    let totalamt = buyprice.toString();
+    console.log(totalamt);
+
+    const instance = new web3.eth.Contract(
+      SimpleStorageContract.abi,
+      ContractAddress
+    );
+
+      if(!instance) {
+      }
+      else {
+
+    console.log(accounts);
+    await instance.methods.BetAgain(Web3.utils.toWei(totalamt, 'ether')).send({ from: accounts  }, 
+    function(error, transactionHash){
+      if (error) {
+      } else {
+        setTrnrecepitbw(transactionHash);
+      }
+  });
+
+  await instance.methods.getUserBlock().call(
+    function (err, res) {
+      if (err) {
+      } else {
+        setBlockNum(res);
+      }
+    }
+  );
+
+
+}
+} else
+{
+  
+}
+  } catch (error) {
+    setErrormsggw("Please try again later! ");
+  }
+}; 
+
+
 
 // 5.callwithdraw
 
@@ -480,6 +465,7 @@ const callwithdraw = async () => {
 
       let errflag =0;
       let amt = amtRefw.current.value; 
+      if (!(balance >= amt)) { setErrormsggw("Low Available Balance! "); return; }
       let totalamt = amt.toString();
 
       setLoadingd(true);
@@ -500,6 +486,7 @@ const callwithdraw = async () => {
             } else {
               // setLoadingd(false);
               setTrnrecepitw(transactionHash);
+              setTokenamtw(1);
             }
         });      }
 
@@ -507,110 +494,6 @@ const callwithdraw = async () => {
       setLoadingd(false);
   } catch (error) {
     setLoadingd(false);
-
-  }
-}; 
-
-// getChild
-
-const getChild = async () => {
-  try {
-    if (subordinatesp <= 0) {  return;} // setWarnmsgg("Downline token holders");
-    const isaddress = AddressChk(sponaddress.trim());
-    if(accounts && isaddress) {
-      setLoadings(true);
-    const instance = new web3.eth.Contract(
-      SimpleStorageContract.abi,
-      ContractAddress
-    );
-
-      if(!instance) {
-      }
-      else {
-
-        let isNewUser = await instance.methods.checkUser(sponaddress.trim()).call();
-        if (!isNewUser) { setLoadings(false); return; }
-    
-
-        await instance.methods.getChildAddress(sponaddress.trim()).call(
-          function (err, res) {
-            if (err) {
-              setLoadings(false);
-            } else {
-              // let tempArr = [];
-              for(let i=0;i < subordinatesp;i++) {
-                
-                cartItems.push({id: i+1,value:res[i]});
-                
-              }
-              setWarnmsgg("Please check below section");
-              //  console.log(tempArr);
-              // setCartItems([...cartItems, tempArr]);
-              //  setLoadingsch(false);
-            }
-          }
-        );
-      }
-      }
-      setLoadings(false);
-      setLoadingsch(false);
-  } catch (error) {
-    setLoadings(false);
-setLoadingsch(false);
-  }
-}; 
-
-// Admin
-
-const callAdmin = async (sponaddress) => {
-  try {
-    // console.log(sponaddress);
-    const isaddress = AddressChk(sponaddress.trim());
-    if(accounts && isaddress) {
-      setLoadings(true);
-    const instance = new web3.eth.Contract(
-      SimpleStorageContract.abi,
-      ContractAddress
-    );
-
-      if(!instance) {
-      }
-      else {
-
-         let isNewUser = await instance.methods.checkUser(sponaddress.trim()).call();
-        if (!isNewUser) { setWarnmsgg("Sponsor Not Found! Please use sponsor finder tool"); setLoadings(false); return; }
-    
-
-        await instance.methods.getDashBoard(sponaddress.trim()).call(
-          function (err, res) {
-            if (err) {
-              setLoadings(false);
-            } else {
-              setSubordinatesp(res[2]);
-              setLevelnumberp(res[3]);
-
-              if(res[2] >=0 && res[2] <=19){
-                setErrormsgsp("Health Check Pass");
-              }
-
-              if(res[2] >=20){
-                setWarnmsgg("Already 20 Downline token holders exists! It is recommended for influencers only to choose this sponsor");
-              }
-
-              if(res[2] > 0){
-              // setLoadingsch(true);
-              }
-              // setCartItems([]);
-
-              // setLoadings(false);
-            }
-          }
-        );
-      }
-      }
-      setLoadings(false);
-  } catch (error) {
-    setLoadings(false);
 
   }
 }; 
@@ -680,28 +563,21 @@ const callAdmin = async (sponaddress) => {
             <Grid spacing={0} container>
               <Grid item xs={12} md={6}>
                 <Box p={4}>
-                  {/* <Typography
-                    sx={{
-                      pb: 3
-                    }}
-                    variant="h4"
-                  >
-
-                  </Typography> */}
+       
                   <Box>
                   <EmojiEventsIcon variant="outlined" fontSize="large" color="success"/>
 
                     <Typography variant="h1" gutterBottom>
                       <Text color="success"> 50 MATIC</Text>
                     </Typography>
-
+                    {blockNum == null && (
                     <Typography
                       variant="h4"
                       fontWeight="normal"
                       color="text.secondary"
                     >
                       If block number matches, you WIN.
-                    </Typography>
+                    </Typography> )}
                     
                      {isConnected && loading && ( <>
                         <Typography
@@ -718,13 +594,39 @@ const callAdmin = async (sponaddress) => {
                     ></Box>
                      <LinearProgress color="success" /> </>)}
 
+                     {blockNum && (<>
+                       <Typography
+                       variant="h6"
+                       fontWeight="normal"
+                     >
+                       <Text color='warning'>Your Block {blockNum} not matched! </Text>
+                     </Typography>
+                      <Typography
+                      variant="h4"
+                      fontWeight="normal"
+                    >
+                      <Text color='success'>Please wait for slot end cashback</Text> { ' '}
+                      <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="Hide"
+                          color="success"
+                          onClick={(e) => { setBlockNum(null);  } }
+                        /> 
+                      </Typography>
+                      </>
+                     )}
+
 
                     <Box
                       sx={{
                         pt: 3
                       }}
                     >
-                          <TextField
+                    <TextField
                       required
                       id="outlined-required"
                       label="Matic Amount"
@@ -743,13 +645,13 @@ const callAdmin = async (sponaddress) => {
                 <Tooltip arrow title=""><span>
                 <Button variant="outlined" size="small" color="success" onClick={sendValue} 
                 disabled={loading}
-                >Buy</Button> </span></Tooltip> 
+                >Bet</Button> </span></Tooltip> 
               )}
 
 
               {!isConnected && (
                 <Tooltip arrow title="Please Connect Wallet"><span>
-                <Button variant="outlined" size="small" color="warning" onClick={sendValue} disabled>Buy</Button> 
+                <Button variant="outlined" size="small" color="warning" onClick={sendValue} disabled>Bet</Button> 
                 </span></Tooltip>              )}
                 
                 <Box
@@ -761,19 +663,58 @@ const callAdmin = async (sponaddress) => {
                 {errormsgg && (<>
 
                   <Typography
-                        variant="h4"
+                        variant="h6"
                         fontWeight="normal"
                       >
                         <Text color="warning" >{errormsgg}</Text>
+                        <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="Hide"
+                          color="warning"
+                          onClick={(e) => { setErrormsgg(null);  } }
+                        />
                       </Typography>
-               
-                <Button  size="small"  variant="outlined" color="warning" 
-                style={{textAlign: 'left'}}
-                onClick={() => setErrormsgg(null)} >Hide</Button> </>)}
+   
+                </>)}
 
-                {trnrecepitb && (<Button  size="small"  variant="outlined" color="success" fullWidth
-                startIcon={<CheckCircleOutlineIcon fontSize="small" />}
-                onClick={() => openScan(trnrecepitb)} >Buy Receipt</Button>)}
+                {trnrecepitb && (<>
+                
+                  <Typography
+                        variant="h6"
+                        fontWeight="normal"
+                      >
+                        <Text color="success" >Bet Receipt</Text> {' '}
+
+                        <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="View"
+                          color="success"
+                          onClick={(e) => { openScan(trnrecepitb);  } }/>
+                          {' '}
+
+                        <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="Hide"
+                          color="success"
+                          onClick={(e) => { setTrnrecepitb(null);  } }/>
+
+
+                      </Typography>
+
+                </>
+                )}
 
 
 
@@ -786,22 +727,6 @@ const callAdmin = async (sponaddress) => {
                       }}
                       alignItems="center"
                     >
-
-                      <Box>
-                        <Typography variant="h4">No Win Case,the amount placed in pool slot</Typography>
-                        <Typography variant="subtitle2" noWrap>
-                        Band 1: For 1 Matic,generates 73% + 1 Matic (1.73)
-                        </Typography>
-                        <Typography variant="subtitle2" noWrap>
-                        Band 2: For 1 Matic,generates 20% + 1 Matic (1.20)
-                        </Typography>
-                        <Typography variant="subtitle2" noWrap>
-                        Band 3: For 1 Matic,generates 52% of 1 Matic (0.52)
-                        </Typography>
-                        <Typography variant="subtitle2" noWrap>
-                         All users get complete generated matic at the slot end.
-                        </Typography>
-                      </Box>
                     </Box>
                   </Box>
 
@@ -850,7 +775,7 @@ const callAdmin = async (sponaddress) => {
 
                         <Box>
                           <Typography variant="h1" gutterBottom>
-                            <Text color="success">10</Text>
+                            <Text color="success">{slotNum}</Text>
                           </Typography>
                           <Typography
                             variant="h4"
@@ -867,7 +792,8 @@ const callAdmin = async (sponaddress) => {
                             alignItems="center"
                           >
                             <Box>
-                              <Typography variant="h4">9</Typography>
+                              {slotNum > 0 && (<Typography variant="h4">{slotNum-1}</Typography>)}
+                              {slotNum <= 0 && (<Typography variant="h4">0</Typography>)}
                               <Typography variant="subtitle2" noWrap>
                                 completed slot
                               </Typography>
@@ -875,7 +801,9 @@ const callAdmin = async (sponaddress) => {
                           </Box>
                         </Box>
                         <Grid container spacing={3}>
-
+                        {loadingr && ( 
+                            <CircularProgress color="success" size={25} />
+                          )}
                         </Grid>
                       </Box>
 
@@ -906,7 +834,7 @@ const callAdmin = async (sponaddress) => {
                           }}
                         ></Box>
 
-{isConnected && (
+            {isConnected && (
                 <Tooltip arrow title=""><span>
                 <Button variant="outlined" size="small" color="success" onClick={callwithdraw} 
                 disabled={loadingd}
@@ -919,33 +847,117 @@ const callAdmin = async (sponaddress) => {
                 <Button variant="outlined" size="small" color="warning"  disabled>Withdraw</Button> 
                 </span></Tooltip>              )}
 
-                <Button size="small" variant="outlined" color="success">
-                          Buy Again
-                        </Button>
+                {isConnected && (
+                <Tooltip arrow title=""><span>
+                <Button variant="outlined" size="small" color="success" onClick={sendValueAg} 
+                disabled={loadingd}
+                >Bet Again</Button> </span></Tooltip> 
+              )}
 
-                
+
+              {!isConnected && (
+                <Tooltip arrow title="Please Connect Wallet"><span>
+                <Button variant="outlined" size="small" color="warning"  disabled>Bet Again</Button> 
+                </span></Tooltip>              )}
+
+
                 <Box
                 sx={{
                   pt: 1
                 }}
               ></Box>
                 
-                {errormsgg && (<>
+                {errormsggw && (<>
 
-                  <Typography
-                        variant="h4"
-                        fontWeight="normal"
-                      >
-                        <Text color="warning" >{errormsgg}</Text>
-                      </Typography>
-               
-                <Button  size="small"  variant="outlined" color="warning" 
-                style={{textAlign: 'left'}}
-                onClick={() => setErrormsgg(null)} >Hide</Button> </>)}
+                    <Typography
+                          variant="h6"
+                          fontWeight="normal"
+                        >
+                          <Text color="warning" >{errormsggw}</Text>
+                          <Chip
+                            sx={{
+                              mr: 0.5
+                            }}
+                            variant="outlined"
+                            size="small"
+                            label="Hide"
+                            color="warning"
+                            onClick={(e) => { setErrormsggw(null);  } }
+                          />
+                        </Typography>
 
-                {trnrecepitw && (<Button  size="small"  variant="outlined" color="success" fullWidth
-                startIcon={<CheckCircleOutlineIcon fontSize="small" />}
-                onClick={() => openScan(trnrecepitb)} >Withdraw Receipt</Button>)}
+                    </>)}
+
+
+              {trnrecepitw && (<>
+                
+                <Typography
+                      variant="h6"
+                      fontWeight="normal"
+                    >
+                      <Text color="success" >Withdraw Receipt</Text> {' '}
+
+                      <Chip
+                        sx={{
+                          mr: 0.5
+                        }}
+                        variant="outlined"
+                        size="small"
+                        label="View"
+                        color="success"
+                        onClick={(e) => { openScan(trnrecepitw);  } }/>
+                        {' '}
+
+                      <Chip
+                        sx={{
+                          mr: 0.5
+                        }}
+                        variant="outlined"
+                        size="small"
+                        label="Hide"
+                        color="success"
+                        onClick={(e) => { setTrnrecepitw(null);  } }/>
+
+
+                    </Typography>
+
+              </>
+              )}
+
+             {trnrecepitbw && (<>
+                
+                <Typography
+                      variant="h6"
+                      fontWeight="normal"
+                    >
+                      <Text color="success" >Bet Receipt</Text> {' '}
+
+                      <Chip
+                        sx={{
+                          mr: 0.5
+                        }}
+                        variant="outlined"
+                        size="small"
+                        label="View"
+                        color="success"
+                        onClick={(e) => { openScan(trnrecepitbw);  } }/>
+                        {' '}
+
+                      <Chip
+                        sx={{
+                          mr: 0.5
+                        }}
+                        variant="outlined"
+                        size="small"
+                        label="Hide"
+                        color="success"
+                        onClick={(e) => { setTrnrecepitbw(null);  } }/>
+
+
+                    </Typography>
+
+              </>
+              )}
 
 
                         <Box
@@ -983,6 +995,22 @@ const callAdmin = async (sponaddress) => {
         alignItems="center"
         justifyContent="space-between"
       ></Box>
+
+                <Box>
+                        <Typography variant="h4">Cash Back Details</Typography>
+                        <Typography variant="subtitle2" noWrap>
+                        Band 1: For 1 Matic,generates 73% + 1 Matic (1.73)
+                        </Typography>
+                        <Typography variant="subtitle2" noWrap>
+                        Band 2: For 1 Matic,generates 20% + 1 Matic (1.20)
+                        </Typography>
+                        <Typography variant="subtitle2" noWrap>
+                        Band 3: For 1 Matic,generates 52% of 1 Matic (0.52)
+                        </Typography>
+                        <Typography variant="subtitle2" noWrap>
+                         All users get complete generated matic at the slot end.
+                        </Typography>
+                      </Box>
 
  {/* row -1 */}
 

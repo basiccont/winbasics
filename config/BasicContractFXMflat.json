@@ -17,6 +17,16 @@
           "internalType": "uint256",
           "name": "_fun",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_ctFeediv",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_ctFeemul",
+          "type": "uint256"
         }
       ],
       "stateMutability": "nonpayable",
@@ -98,6 +108,24 @@
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_ctFeediv",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_ctFeemul",
+          "type": "uint256"
+        }
+      ],
+      "name": "SetContractF",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "_minSpinAmount",
           "type": "uint256"
         },
@@ -117,6 +145,16 @@
         {
           "internalType": "uint256",
           "name": "_n",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_m",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_k",
           "type": "uint256"
         }
       ],
@@ -169,35 +207,21 @@
     },
     {
       "inputs": [],
+      "name": "getSlot",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
       "name": "getCTBal",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "getCTFeeDiv",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "getCTFeeMul",
       "outputs": [
         {
           "internalType": "uint256",
@@ -293,7 +317,35 @@
     },
     {
       "inputs": [],
-      "name": "BuyCart",
+      "name": "getUserBlock",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "Bet",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function",
+      "payable": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_reqamt",
+          "type": "uint256"
+        }
+      ],
+      "name": "BetAgain",
       "outputs": [],
       "stateMutability": "payable",
       "type": "function",
