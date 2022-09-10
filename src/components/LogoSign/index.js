@@ -99,7 +99,7 @@ function Logo() {
 
   return (
     <TooltipWrapper
-      title="FastX User Dashboard"
+      title="FastX CashBack Bets"
       arrow
     >
       <LogoWrapper href="/">
@@ -124,7 +124,7 @@ function Logo() {
           height: theme.spacing(8)
         }}
         alt="FastX Token"
-        src="https://rabbiteggsdefi.github.io/maticguide/images/fastxlogo512.png"
+        src="https://rabbiteggsdefi.github.io/maticguide/images/win50maticlogo.png"
       />
 
           {/* <LogoSignWrapper>
