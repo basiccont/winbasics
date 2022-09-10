@@ -18,7 +18,7 @@ function Footer() {
       >
         <Box>
           <Typography variant="subtitle1">
-            &copy; 2022 - FastX User Dashboard
+            &copy; 2022 - FastX CashBack Betting Game
           </Typography>
         </Box>
         <Typography

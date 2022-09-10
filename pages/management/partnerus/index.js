@@ -12,7 +12,7 @@ function ApplicationsPartnetus() {
   return (
     <>
       <Head>
-        <title>Partner with us</title>
+        <title>FastX Line Income Dapp</title>
       </Head>
       <PageTitleWrapper>
         <PageHeader />

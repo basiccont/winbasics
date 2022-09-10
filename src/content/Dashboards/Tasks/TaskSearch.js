@@ -27,7 +27,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Text from 'src/components/Text';
 import Web3 from "web3";
 import SimpleStorageContract from "config/BasicContractFXMflat.json";
-import { CONTADDRESS,TXNURL,TOKENADDRESS,REFURL,FXSPONSOR,DSTATECT } from 'config/configct';
+import { CONTADDRESS,TXNURL,TOKENADDRESS,DSTATECT } from 'config/configct';
 
 const OutlinedInputWrapper = styled(OutlinedInput)(
   ({ theme }) => `
@@ -100,46 +100,25 @@ const CardAddAction = styled(Card)(
 
 function TaskSearch(props) {
   const theme = useTheme();
-  const { isConnected, accounts, web3, errormsgw , onConnect, onDisconnect, refid } = props;
+  const { isConnected, accounts, web3, errormsgw , onConnect, onDisconnect } = props;
   const ContractAddress = CONTADDRESS;
    
-  const AddressChk = (address) => {
-     return Web3.utils.isAddress(address);
-    }
 
   const amtRef = useRef(null);
   const amtRefw = useRef(null);
   const [errormsgg, setErrormsgg] = useState(null);
   const [errormsggw, setErrormsggw] = useState(null);
-  const [warnmsgg, setWarnmsgg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingw, setLoadingw] = useState(false);
   const [loadingr, setLoadingr] = useState(false);
   const [loadingd, setLoadingd] = useState(false);
-  const [loadings, setLoadings] = useState(false);
-  const [loadingsch, setLoadingsch] = useState(true);
-  const [loadingfind, setLoadingfind] = useState(false);
   
   
   const [trnrecepitb, setTrnrecepitb] = useState(null);
   const [trnrecepitw, setTrnrecepitw] = useState(null);
   const [trnrecepitbw, setTrnrecepitbw] = useState(null);
   // DashBoard
-  const [newUser, setNewUser] = useState(false);
-  const [pkgvalue, setPkgvalue] = useState(0);
-  const [withdrawnbal, setWithdrawnbal] = useState(null); // wei to ether
-  const [subordinates, setSubordinates] = useState(0);
-  const [levelnumber, setLevelnumber] = useState(0);
   const [balance, setBalance] = useState(null); // wei to ether
-  // const [xbalance, setXbalance] = useState(null); // wei to ether
-  const [refbouns, setRefbouns] = useState(null); // wei to ether
-  const [parent, setParent] = useState(' ');
-  
-  const [sponaddress, setSponaddress] = useState(' ');
-  const [rate, setRate] = useState(4);
-  const [copyTokens, setCopyTokens] = useState('Copy Token');
-  const [copyRef, setCopyRef] = useState('Copy Ref Link');
-  const [copyShRef, setCopyShRef] = useState('Copy and Share Ref Link');
   
 
   const [tokenamt, setTokenamt] = useState(1);
@@ -149,30 +128,9 @@ function TaskSearch(props) {
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalWithdraws, setTotalWithdraws] = useState(null);
   const [totalPlayAmt, setTotalPlayAmt] = useState(null);
-  const [slotUsrCount, setSlotUsrCount] = useState(0);
   const [slotNum, setSlotNum] = useState(0);
   const [blockNum, setBlockNum] = useState(null);
   
-
-  const [cartItems, setCartItems] = useState([]);
-
-  const [subordinatesp, setSubordinatesp] = useState(0);
-
-
-  const copyRefLink = async () => {
-    if(isConnected) {
-    navigator.clipboard.writeText(REFURL.concat(accounts));
-    setCopyRef('Copied!');
-    setCopyShRef('Copied!');
-    }
-   }
-
-
-  const copyToken = async () => {
-    navigator.clipboard.writeText(TOKENADDRESS);
-    setCopyTokens('Copied!');
-   }
-
   const openScan = async (val) => {
     window.open(TXNURL + val, '_blank').focus();
    }
@@ -182,7 +140,6 @@ function TaskSearch(props) {
     setLoadingw(true); 
     await props.onConnect(); 
     setLoadingw(false);
-    if (refid != undefined && refid.length > 0) {   setSponaddress(refid); }
     }
     catch(err){
       setLoadingw(false);
@@ -293,77 +250,15 @@ const getUserDetails = async () => {
         await instance.methods.getBal(accounts).call(
           function (err, res) {
             if (err) {
-              console.log("An error occured", err)
-              return
+              setLoadingr(false);
             }
             // booked = res;
-            console.log("The getBal is: ",Web3.utils.fromWei(res,'ether'))
+            // console.log("The getBal is: ",Web3.utils.fromWei(res,'ether'))
             setBalance(Web3.utils.fromWei(res,'ether'));
           }
         );
 
         // slot & balance 
-
-        let bou =0;
-        await instance.methods.getBought().call(
-          function (err, res) {
-            if (err) {
-              console.log("An error occured", err)
-              return
-            }
-            bou = res;
-            console.log("The getBought is: ",res)
-
-          }
-        );
-
-
-        for (let i=0; i<=bou;i++) {
-    
-          await instance.methods.getFunder(i).call(
-            function (err, res) {
-              if (err) {
-                console.log("An error occured", err)
-                return
-              }
-              console.log(i," - ",res)
-            }
-          );
-          }
-
-         // Booked 
-      // let booked =0;
-      // await instance.methods.getBoo().call(
-      //   function (err, res) {
-      //     if (err) {
-      //       console.log("An error occured", err)
-      //       return
-      //     }
-      //     booked = res;
-      //     console.log("The getBooked is: ",res)
-
-      //   }
-      // );
-        
-
-      // let ads ='0x4A5EEb65Db9915a79792Fb8Db478502f1F3a1505';
-      let ad31 = '0xd00550bC70c19BF2e0fCA20dd6652921EED0bAD0';
-      await instance.methods.getBal(ad31).call(
-        function (err, res) {
-          if (err) {
-            console.log("An error occured", err)
-            return
-          }
-          // booked = res;
-          console.log("owner getBal is: ",Web3.utils.fromWei(res,'ether'))
-
-        }
-      );
-
-
-        
-
-                // getTotals
 
   }
  
@@ -511,16 +406,16 @@ const callwithdraw = async () => {
         <Box>
        
           <Typography variant="subtitle2">
-              Win 50 For 1 MATIC
+              CashBack Betting Game -
             <Text color="black">
-              {/* <b>Panel</b> */}
+              Enjoy the benefits of betting without losing MATIC Coin.
             </Text>
           </Typography>
         </Box>
 
         <Box mt={{ xs: 2, md: 0 }}>
       
-        {isConnected && (<Button variant="outlined" color="success" onClick={getUserDetails} disabled={loadingr}>Refresh Board</Button>)} {' '}
+        {isConnected && (<Button variant="outlined" color="warning" onClick={getUserDetails} disabled={loadingr}>Refresh Board</Button>)} {' '}
 
       {errormsgw && (<Button variant="outlined" color="error" startIcon={<ErrorOutlineIcon fontSize="small" />} >{errormsgw}</Button>)} {' '}
       
@@ -551,13 +446,41 @@ const callwithdraw = async () => {
         py={1}
         display="flex"
         alignItems="center"
-        justifyContent="space-between"
-      ></Box>
+      >
+        Bet with Block.If Exact Match, WIN 50 Matic.Else get cashback for most { ' '}
+        <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="nearest"
+                          color="success"
+                          /> 
+<Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="nearer"
+                          color="success"
+                          /> 
+                             <Chip
+                          sx={{
+                            mr: 0.1
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="far away"
+                          color="success"
+                          />  block
+      </Box>
 
 
       <Grid container spacing={4}>
         <Grid item xs={12} >
-          {/* <AccountBalance /> */}
+          
 
           <Card>
             <Grid spacing={0} container>
@@ -576,7 +499,7 @@ const callwithdraw = async () => {
                       fontWeight="normal"
                       color="text.secondary"
                     >
-                      If block number matches, you WIN.
+                      {tokenamt} Chance To Win 
                     </Typography> )}
                     
                      {isConnected && loading && ( <>
@@ -599,13 +522,13 @@ const callwithdraw = async () => {
                        variant="h6"
                        fontWeight="normal"
                      >
-                       <Text color='warning'>Your Block {blockNum} not matched! </Text>
+                       <Text color='warning'>Block {blockNum} not matched! </Text>
                      </Typography>
                       <Typography
                       variant="h4"
                       fontWeight="normal"
                     >
-                      <Text color='success'>Please wait for slot end cashback</Text> { ' '}
+                      <Text color='success'>Please wait for slot end cashback and prize</Text> { ' '}
                       <Chip
                           sx={{
                             mr: 0.5
@@ -988,39 +911,166 @@ const callwithdraw = async () => {
         </Grid>
 
       </Grid>
+      <Box
+                          sx={{
+                            pt: 2
+                          }}
+                        ></Box>
 
       <Box
         py={1}
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-      ></Box>
+      >
 
                 <Box>
-                        <Typography variant="h4">Cash Back Details</Typography>
+                        <Typography variant="h4">Cash Back and Prize</Typography>
+                        <Box
+                          sx={{
+                            pt: 1
+                          }}
+                        ></Box>
                         <Typography variant="subtitle2" noWrap>
-                        Band 1: For 1 Matic,generates 73% + 1 Matic (1.73)
+                        <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="nearest"
+                          color="success"
+                          /> 
+                          : For Each 1 Matic,get 70% <EmojiEventsIcon variant="outlined" fontSize="small" color="success"/> + 1 Matic (1.70)
                         </Typography>
+                        <Box
+                          sx={{
+                            pt: 1
+                          }}
+                        ></Box>
                         <Typography variant="subtitle2" noWrap>
-                        Band 2: For 1 Matic,generates 20% + 1 Matic (1.20)
+                        <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="nearer"
+                          color="success"
+                          /> 
+                          : For Each 1 Matic,get 20% <EmojiEventsIcon variant="outlined" fontSize="small" color="success"/> + 1 Matic (1.20)
                         </Typography>
+                        <Box
+                          sx={{
+                            pt: 1
+                          }}
+                        ></Box>
                         <Typography variant="subtitle2" noWrap>
-                        Band 3: For 1 Matic,generates 52% of 1 Matic (0.52)
+                        <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="far away"
+                          color="success"
+                          /> 
+                          : For Each 1 Matic,get 52% of 1 Matic (0.52)
                         </Typography>
+                        <Box
+                          sx={{
+                            pt: 1
+                          }}
+                        ></Box>
                         <Typography variant="subtitle2" noWrap>
-                         All users get complete generated matic at the slot end.
+                        <Text color="success"> All users get matic in the slot.Max 1.73 and Min 0.52 for each matic</Text>
                         </Typography>
                       </Box>
 
- {/* row -1 */}
 
+                      <Box>
+                        <Typography variant="h4">How it works Smart Contract {' '}
+                        <Link href={DSTATECT} variant="h6" color="primary"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                             Link
+                        </Link>
+                        </Typography>
+                        <Box
+                          sx={{
+                            pt: 1
+                          }}
+                        ></Box>
+                        <Typography variant="subtitle2" noWrap>
+                         Bet with Block smart contract tries match with random block number to WIN.
+                        </Typography>
+                        <Box
+                          sx={{
+                            pt: 1
+                          }}
+                        ></Box>
 
-<Box
+                        <Typography variant="subtitle2" noWrap>
+                         For CashBack , smart contract creates slot of minimum 20 - 25 users and rank.
+                        </Typography>
+                        <Box
+                          sx={{
+                            pt: 1
+                          }}
+                        ></Box>
+                        <Typography variant="subtitle2" noWrap>
+                         Rank based on the most nearest, nearer and far away block number at slot end.
+                        </Typography>
+                        <Box
+                          sx={{
+                            pt: 1
+                          }}
+                        ></Box>
+                        <Typography variant="subtitle2" noWrap>
+                         Select most 
+                         <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="nearest"
+                          color="success"
+                          /> 
+                         : 4 - 6 users,
+                         <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="nearer"
+                          color="success"
+                          /> 
+                         : 7 - 10 users and 
+                         <Chip
+                          sx={{
+                            mr: 0.5
+                          }}
+                          variant="outlined"
+                          size="small"
+                          label="far away"
+                          color="success"
+                          /> 
+                         : rest.
+                        </Typography>
+                       
+                      </Box>
+
+                </Box>
+
+           
+{/* <Box
         py={2}
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-      ></Box>
+      ></Box> */}
 
     </>
   );

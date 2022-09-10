@@ -8,10 +8,10 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Partner with us
+          FastX Matic Dapp
         </Typography>
         <Typography variant="subtitle2">
-          FastX decentralized distribution smart contract.
+          FastX Matic Coin distribution smart contract works on 25 upline, 20 downline income and sponsor bonus.
         </Typography>
       </Grid>
       <Grid item>
