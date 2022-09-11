@@ -1,11 +1,11 @@
 {
-  "name": "FastXMatic",
+  "name": "Win50Matic",
   "version": "1.0.0",
-  "title": "FastX Matic User Dashboard",
-  "description": "High performance FastX Matic User Dashboard built on polygon blockchain",
+  "title": "FastX CashBack Bet Game",
+  "description": "FastX CashBack Bet Game built on polygon blockchain",
   "author": {
     "name": "fastxmatic.com",
-    "url": "https://fastxmatic.com"
+    "url": "https://play.fastxmatic.com"
   },
   "private": false,
   "dependencies": {
