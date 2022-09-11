@@ -13,5 +13,5 @@ export const TOKENCT = 'https://polygonscan.com/address/'.concat(TOKENADDRESS);
 // Social Media Links
 export const TWITTER ='https://twitter.com/Defieggs';
 export const INSTA = 'https://www.instagram.com/rabbiteggsdefi';
-export const MEDIUM ='https://medium.com/@rabbiteggsdefi';
+export const MEDIUM ='https://medium.com/@rabbiteggsdefi/list/cashback-betting-game-57c7523cea2c';
 export const YOUTUBE ='https://www.youtube.com/channel/UCGaNXVdMp59672Nkjl3GsVg';
